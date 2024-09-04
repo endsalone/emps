@@ -9,6 +9,29 @@ services:
     environment:
       POSTGRES_USER: api_emps
       POSTGRES_PASSWORD: api_emps
+      POSTGRES_DB: emps_db
     ports:
       - '5433:5432'
+    volumes:
+      - ./init-scripts/:/docker-entrypoint-initdb.d/
+    networks:
+      - emps_network
 
+  app:
+    container_name: eligibility_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/emps_db
+      SPRING_DATASOURCE_USERNAME: api_emps
+      SPRING_DATASOURCE_PASSWORD: api_emps
+    depends_on:
+      - db
+    networks:
+      - emps_network
+
+networks:
+  emps_network:
