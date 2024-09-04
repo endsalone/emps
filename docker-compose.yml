@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  db:
+    container_name: db_emps
+    hostname: db
+    image: postgres:10
+    restart: always
+    environment:
+      POSTGRES_USER: api_emps
+      POSTGRES_PASSWORD: api_emps
+    ports:
+      - '5433:5432'
+
