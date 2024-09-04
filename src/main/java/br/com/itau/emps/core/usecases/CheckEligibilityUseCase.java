@@ -14,6 +14,12 @@ public class CheckEligibilityUseCase {
     }
 
     public Eligibility check(String cnpj) {
-        return eligibilityService.findByCnpj(cnpj);
+        var company = eligibilityService.findByCnpj(cnpj);
+
+        if (company == null) {
+            return new Eligibility(cnpj, false);
+        }
+
+        return company;
     }
 }
